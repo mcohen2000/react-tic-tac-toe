@@ -71,14 +71,14 @@ const Gameboard = () => {
       if (winnerText === "") {
         if (e.target.className.includes("notPlayed")) {
             const updatedBoard = boardArr;
+            if (playerTurn % 2 === 1) {
+                updatedBoard[e.target.id] = "X";
+            }
+            if (playerTurn % 2 === 0) {
+                updatedBoard[e.target.id] = "O";
+            }
             setBoardArr(updatedBoard);
             setPlayerTurn((prevState) => prevState + 1);
-        if (playerTurn % 2 === 1) {
-            updatedBoard[e.target.id] = "X";
-        }
-        if (playerTurn % 2 === 0) {
-            updatedBoard[e.target.id] = "O";
-        }
         checkWin();
       }
     }
