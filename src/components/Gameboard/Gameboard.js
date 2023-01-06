@@ -13,88 +13,82 @@ const Gameboard = () => {
   function checkWin() {
     // horizontal wins
     if (boardArr[0] !== "" && boardArr[0] === boardArr[1] && boardArr[0] === boardArr[2]) {
-        if (boardArr[0] === 1){
-            return setWinnerText("Congrats! Player X Wins");
+        if (boardArr[0] === "X"){
+            return setWinnerText(`Congrats! Player X won in ${playerTurn} turns!`);
         }
-        return setWinnerText("Congrats! Player O Wins");
+        return setWinnerText(`Congrats! Player O won in ${playerTurn} turns!`);
     }
     if (boardArr[3] !== "" && boardArr[3] === boardArr[4] && boardArr[3] === boardArr[5]) {
-        if (boardArr[3] === 1){
-            return setWinnerText("Congrats! Player X Wins");
+        if (boardArr[3] === "X"){
+            return setWinnerText(`Congrats! Player X won in ${playerTurn} turns!`);
         }
-        return setWinnerText("Congrats! Player O Wins");
+        return setWinnerText(`Congrats! Player O won in ${playerTurn} turns!`);
     }
     if (boardArr[6] !== "" && boardArr[6] === boardArr[7] && boardArr[6] === boardArr[8]) {
-        if (boardArr[6] === 1){
-            return setWinnerText("Congrats! Player X Wins");
+        if (boardArr[6] === "X"){
+            return setWinnerText(`Congrats! Player X won in ${playerTurn} turns!`);
         }
-        return setWinnerText("Congrats! Player O Wins");
+        return setWinnerText(`Congrats! Player O won in ${playerTurn} turns!`);
     }
     // vertical wins
     if (boardArr[0] !== "" && boardArr[0] === boardArr[3] && boardArr[0] === boardArr[6]) {
-        if (boardArr[0] === 1){
-            return setWinnerText("Congrats! Player X Wins");
+        if (boardArr[0] === "X"){
+            return setWinnerText(`Congrats! Player X won in ${playerTurn} turns!`);
         }
-        return setWinnerText("Congrats! Player O Wins");
+        return setWinnerText(`Congrats! Player O won in ${playerTurn} turns!`);
     }
     if (boardArr[1] !== "" && boardArr[1] === boardArr[4] && boardArr[1] === boardArr[7]) {
-        if (boardArr[1] === 1){
-            return setWinnerText("Congrats! Player X Wins");
+        if (boardArr[1] === "X"){
+            return setWinnerText(`Congrats! Player X won in ${playerTurn} turns!`);
         }
-        return setWinnerText("Congrats! Player O Wins");
+        return setWinnerText(`Congrats! Player O won in ${playerTurn} turns!`);
     }
     if (boardArr[2] !== "" && boardArr[2] === boardArr[5] && boardArr[2] === boardArr[8]) {
-        if (boardArr[2] === 1){
-            return setWinnerText("Congrats! Player X Wins");
+        if (boardArr[2] === "X"){
+            return setWinnerText(`Congrats! Player X won in ${playerTurn} turns!`);
         }
-        return setWinnerText("Congrats! Player O Wins");
+        return setWinnerText(`Congrats! Player O won in ${playerTurn} turns!`);
     }
     // diagonal wins
     if (boardArr[0] !== "" && boardArr[0] === boardArr[4] && boardArr[0] === boardArr[8]) {
-        if (boardArr[0] === 1){
-            return setWinnerText("Congrats! Player X Wins");
+        if (boardArr[0] === "X"){
+            return setWinnerText(`Congrats! Player X won in ${playerTurn} turns!`);
         }
-        return setWinnerText("Congrats! Player O Wins");
+        return setWinnerText(`Congrats! Player O won in ${playerTurn} turns!`);
     }
     if (boardArr[2] !== "" && boardArr[2] === boardArr[4] && boardArr[2] === boardArr[6]) {
-        if (boardArr[1] === 1){
-            return setWinnerText("Congrats! Player X Wins");
+        if (boardArr[1] === "X"){
+            return setWinnerText(`Congrats! Player X won in ${playerTurn} turns!`);
         }
-        return setWinnerText("Congrats! Player O Wins");
+        return setWinnerText(`Congrats! Player O won in ${playerTurn} turns!`);
+    }
+    // draw
+    if (boardArr[0] !== "" && boardArr[1] !== "" && boardArr[2] !== "" && boardArr[0] !== "" && boardArr[3] !== "" && boardArr[4] !== "" && boardArr[5] !== "" && boardArr[6] !== "" && boardArr[7] !== "" && boardArr[8] !== ""){
+        return setWinnerText("Draw!")
     }
   }
   function handleClick(e) {
-    if (winnerText === "") {
-      if (e.target.className.includes("notPlayed")) {
-        const updatedBoard = boardArr;
-        updatedBoard[e.target.id] = playerTurn % 2;
-        setBoardArr(updatedBoard);
-        setPlayerTurn((prevState) => prevState + 1);
-        e.target.classList.toggle("notPlayed");
+      if (winnerText === "") {
+        if (e.target.className.includes("notPlayed")) {
+            const updatedBoard = boardArr;
+            setBoardArr(updatedBoard);
+            setPlayerTurn((prevState) => prevState + 1);
         if (playerTurn % 2 === 1) {
-          e.target.innerHTML = "X";
+            updatedBoard[e.target.id] = "X";
         }
         if (playerTurn % 2 === 0) {
-          e.target.innerHTML = "O";
+            updatedBoard[e.target.id] = "O";
         }
         checkWin();
       }
     }
   }
+
   return (
     <div>
       <h3>{winnerText}</h3>
-
       <div className="gameBoard" onClick={handleClick}>
-        <div id="0" className="box box0 notPlayed"></div>
-        <div id="1" className="box box1 notPlayed"></div>
-        <div id="2" className="box box2 notPlayed"></div>
-        <div id="3" className="box box3 notPlayed"></div>
-        <div id="4" className="box box4 notPlayed"></div>
-        <div id="5" className="box box5 notPlayed"></div>
-        <div id="6" className="box box6 notPlayed"></div>
-        <div id="7" className="box box7 notPlayed"></div>
-        <div id="8" className="box box8 notPlayed"></div>
+        {boardArr.map((item, index) => <div key={index} id={index} className={item==="" ? "box notPlayed" : "box"}>{item}</div>)}
       </div>
     </div>
   );
